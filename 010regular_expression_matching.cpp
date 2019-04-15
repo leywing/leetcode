@@ -9,104 +9,52 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
+//下面的俩都是看别人的答案的，可惜，可惜
+//class Solution {
+//public:
+//    bool isMatch(string s, string p) {
+//        if(p.empty()) return s.empty();
+//
+//        if(p[1]=='*'){
+//            return isMatch(s, p.substr(2))||(!s.empty()&&(s[0]==p[0]||p[0]=='.')&&isMatch(s.substr(1), p));//厉害了
+//        }else{
+//            return !s.empty()&&(s[0]==p[0]||p[0]=='.')&&isMatch(s.substr(1), p.substr(1));
+//        }
+//
+//    }
+//};
+//上面这个写得好简单，但是太慢了，内存占用也大；
+
+//动态规划
 class Solution {
 public:
     bool isMatch(string s, string p) {
-        unsigned long length_s=s.size();
-        length_s=length_s-1;
-        unsigned long length_p=p.size();
-        length_p=length_p-1;
-        int j=0;
-        int i=0;
-        if(p[0]=='*') return false;
-        for(;i<=length_s&&j<=length_p;){
-            if(s[i]==p[j]||p[j]=='.'){ //直接相等的情况
-                i++;
-                j++;
-            }else if(p[j]=='*'){         //'.*'单独a考虑
-                if(p[j-1]=='*') return false;
-                else if(p[j-1]=='.'){
-                    cout<<"this"<<endl;
-                    if(j==length_p){
-                        return true;
-                    }else{
-                        cout<<"now"<<endl;
-                        if(i-1>=0){
-                            cout<<i<<endl;
-                            cout<<"007"<<endl;
-                            for(int ii=0;i+ii-1<=length_s&&j+1<=length_p;ii++){
-                                if(isMatch(s.substr(i+ii-1), p.substr(j+1))){
-                                    return true;
-                                }
-                            }
-                                return false;
-                        }else{
-                            cout<<"here"<<endl;
-                            for(int ii=0;i+ii<=length_s&&j+1<=length_p;ii++){
-                                if(isMatch(s.substr(i+ii), p.substr(j+1))){
-                                    return true;
-                                }
-                            }
-                            return false;
-                        }
-                        }
-                    }
-                else if (i-1>=0&&p[j-1]==s[i-1]){
-                    int temp1=1,temp2=0;
-                    for(;i+temp1-1<=length_s;){
-                        if(s[i+temp1-1]==s[i-1])
-                        {
-                            temp1=temp1+1;
-                        }else{
-                            break;
-                        }
-                    }
-//                    while(s[i+temp1-1]==s[i-1]){
-//                        temp1=temp1+1;
-//                    }
-                    for(;j+temp2+1<=length_p;){
-                        if(s[j+temp2+1]==s[i-1])
-                        {
-                            temp2=temp2+1;
-                        }else{
-                            break;
-                        }
-                    }
-//                    while(p[j+temp2+1]==s[i-1]){     //未考虑‘.'
-//                        temp2=temp2+1;
-//                    }
-                    if(temp1>=temp2){
-                        //这里要考虑a*aa.a.a的情形，这里还没写？？？
-                            i=i+temp1-1;
-                            j=j+temp2+1;
-                    }else{
-                        return false;
-                    }
-            }else{
-                    return false;
-                }
-                
-        }else if(j+1<=length_p){
-            if(p[j+1]=='*') j=j+2;
-            else return false;
-        }else{
-                return false;
-            }
-            
+        int m=s.size();
+        int n=p.size();
+        vector<vector<bool>> f(m+1,vector<bool>(n+1,false));
+        f[0][0]=true;//f(m)(n)对应说s[0,m-1],p[0,n-1]
+        for(int i=1;i<=m;i++){
+            f[i][0]=false;    //这一步，前面初始化的时候已经false,应该不用写吧
+        }//s有，p空情形
+        for(int j=1;j<=n;j++){
+            f[0][j]=j>1&&p[j-1]=='*'&&f[0][j-2];//j>1
         }
-        if(i==length_s+1&&j==length_p+1){
-            
-            return true;
-        }else{
-            return false;
-        }
-            
         
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(p[j-1]=='*'){
+                    f[i][j]=f[i][j-2]||((s[i-1]==p[j-2]||p[j-2]=='.')&&f[i-1][j]);//1.重复0次。 2.若等于p[j-2],则可直接判断下一个
+                }else{
+                    f[i][j]=f[i-1][j-1]&&(s[i-1]==p[j-1]||p[j-1]=='.');  //1.相等，则i-1，j-1；
+                }
+            }
+        }
+        return f[m][n];
     }
 };
-
 
 int main(){
     string s="";
