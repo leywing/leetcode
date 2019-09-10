@@ -56,7 +56,8 @@ public:
 
 int main(){
     cout<<endl<<endl;
-    
+    ListNode r(5);
+    cout<<r.val<<endl;
     
     return 0;
 }
