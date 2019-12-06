@@ -46,6 +46,8 @@ public:
 //            swap(nums[spot], nums[i]);
 //            per2(spot+1,nums,ans);
 //            //swap(nums[spot], nums[i]);
+            //  为什么这里不swap回去，没影响啊？？？？
+            //哦，确实没影响，因为只要把那个num[i]放到前面就好了。后面放的数还是那几个，遍历出来结果一样。
 //        }
 //
 //    }
