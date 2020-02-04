@@ -43,15 +43,15 @@ struct ListNode {
 // : val(_val), left(_left), right(_right), next(_next) {}
 // };
 
-class Node {
-public:
-    int val;
-    vector<Node*> neighbors;
-    
-    Node() {}
-    
-    Node(int _val, vector<Node*> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
-};
+//class Node {
+//public:
+//    int val;
+//    vector<Node*> neighbors;
+//    
+//    Node() {}
+//    
+//    Node(int _val, vector<Node*> _neighbors) {
+//        val = _val;
+//        neighbors = _neighbors;
+//    }
+//};
