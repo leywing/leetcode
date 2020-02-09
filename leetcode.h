@@ -7,7 +7,7 @@
 #include <stack>
 #include <algorithm>
 #include <queue>
-
+#include <list>
 //#include <math.h>
 using namespace std;
 
