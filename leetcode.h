@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <queue>
 #include <list>
+#include <ctype.h>
 //#include <math.h>
 using namespace std;
 
