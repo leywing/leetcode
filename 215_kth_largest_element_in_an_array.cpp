@@ -54,6 +54,9 @@ public:
 //            }
 //            return j;
 //        }
+        int mid=lo+(hi-lo)/2;
+        exch(nums,lo,mid);          //就加了这两行。。。。。。速度提升5倍。。。。。随机取数的重要性啊
+        
         while(true){
             while(i<hi&&nums[i]>=nums[lo]){
                 i++;
